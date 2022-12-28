@@ -1,0 +1,7 @@
+all:
+	nasm -f elf32 kernel.asm -o kernel.o
+	g++ -fno-pic -m32 -o kernel.bin master.cpp kernel.o -nostdlib -ffreestanding -std=c++11 -mno-red-zone -fno-exceptions -nostdlib -fno-rtti -Wall -Wextra -T linker.ld
+	@mkdosfs -C floppy.img 1440
+	@dd conv=notrunc if=kernel.bin of=floppy.img
+	@rm kernel.bin
+	@rm kernel.o
