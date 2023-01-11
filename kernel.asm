@@ -59,6 +59,8 @@ copy_target:
 
 bits 32
 
+STACK_SIZE equ 16384
+
 global load_idt
 global kbd_handler
 global kernel
@@ -71,10 +73,22 @@ load_idt:
 	lidt [edx]
 	sti 
 	ret
-
-kbd_handler:  
-	call print_handler
+	
+page_isr:
+	call page_handler
 	iretd
+
+kbd_isr:  
+	call kbd_handler
+	iretd
+	
+pit_isr:
+	call pit_handler
+	iretd
+	
+get_eip:
+	mov eax, [esp]
+	ret
 
 boot2:
     mov ax, DATA_SEG
@@ -83,6 +97,8 @@ boot2:
     mov fs, ax
     mov gs, ax
     mov ss, ax
+    
+
 
 kernel:
     mov esp, kernel_stack_top
@@ -92,5 +108,5 @@ kernel:
 section .bss
 align 4
 kernel_stack_bottom: equ $
-    resb 16384 
+    resb STACK_SIZE
 kernel_stack_top:
