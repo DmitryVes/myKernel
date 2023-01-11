@@ -103,10 +103,10 @@ extern "C" void memset(unsigned long* dest, int ch, unsigned long cnt)
 struct IDT
 {
     unsigned short offset_lowerbits;
-    unsigned short offset_higherbits;
     unsigned short selector;
     unsigned char zero;
     unsigned char type_attributes;
+    unsigned short offset_higherbits;
 };
 
 struct IDT IDT_deskriptors[IDT_SIZE];
@@ -117,8 +117,6 @@ extern "C" void IDT_init()
     unsigned long idt_address = (unsigned long)IDT_deskriptors;
     idt_ptr[0] = (sizeof(struct IDT) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
     idt_ptr[1] = idt_address >> 16;
-
-    //memset(&idt_address, 0, sizeof(IDT_deskriptors) * IDT_SIZE);
 
     unsigned long kbd_address = (unsigned long)kbd_handler;
     IDT_deskriptors[0x21].offset_lowerbits = (kbd_address & 0xffff);
@@ -193,27 +191,9 @@ extern "C" void itos(int n)
 
 extern "C" void turn_to_hex(u32int dec_n)
 {
+    const char* hex_nums = "0123456789ABCDEF\0";
     int hex_GCD = 16777216; //k = 16776960;
-    while (dec_n > 0)
-    {
-        switch (dec_n / hex_GCD)
-        {
-        case 10: print_str("A");
-            break;
-        case 11: print_str("B");
-            break;
-        case 12: print_str("C");
-            break;
-        case 13: print_str("D");
-            break;
-        case 14: print_str("E");
-            break;
-        case 15: print_str("F");
-            break;
-        default:
-            itos(dec_n / hex_GCD);
-            break;
-        }
+        itos(*(hex_nums + (dec_n / hex_GCD)));
         dec_n %= hex_GCD;
         hex_GCD /= 16;
     }
@@ -234,8 +214,5 @@ extern "C" void kmain(void)
 {
     IDT_init();
     kbd_init();
-    while (1)
-    {
-        asm("hlt");
-    };
+    while (1);
 }
