@@ -7,6 +7,7 @@ static short* vga = (short*)0xb8000;
 static int screen_x = 0;
 static int screen_y = 0;
 
+extern "C" void res_stack(void);
 extern "C" void kbd_handler(void);
 extern "C" void load_idt(unsigned long* idt_ptr);
 
