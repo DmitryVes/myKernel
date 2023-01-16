@@ -97,8 +97,6 @@ boot2:
     mov fs, ax
     mov gs, ax
     mov ss, ax
-    
-
 
 kernel:
     mov esp, kernel_stack_top
@@ -106,7 +104,8 @@ kernel:
     hlt
 
 section .bss
-align 4
-kernel_stack_bottom: equ $
+res_stack:
+    align 4
+    stack_bottom: equ $
     resb STACK_SIZE
-kernel_stack_top:
+    stack_top:
