@@ -103,9 +103,75 @@ kernel:
     call kmain
     hlt
 
+array db: 0, 1, 2, 3
+put_in_stack:
+	call res_stack
+	mov esp, stack_top
+	mov [esp], 1
+	add esp, 4
+
 section .bss
 res_stack:
     align 4
     stack_bottom: equ $
     resb STACK_SIZE
     stack_top:
+    
+    template <class T>
+struct Stack_node
+{
+    T data;
+    Stack_node<T>* next;
+};
+
+template <class T>
+class Van_Darkholme
+{
+private:
+    size_t size;
+    Stack_node<T>* end;
+public:
+    explicit Van_Darkholme() : size{ 0 }, begin{ nullptr }, end{nullptr} {};
+    Van_Darkholme(size_t size)
+    {
+        this->size = size;
+    }
+    ~Van_Darkholme() {};
+
+    size_t get_size()
+    {
+        return size;
+    }
+
+    T get_topel()
+    {
+        return end->data;
+    }
+
+    void push_b(Stack_node<T>* el)
+    {
+        ++size;
+        if (begin == nullptr)
+        {
+            begin = el;
+            return;
+        }
+        Stack_node<T>* tmp = end;
+        tmp->next = el;
+        tmp->data = el->data;
+    }
+
+    void pop_b()
+    {
+        --size;
+        Stack_node<T>* tmp = begin;
+        int i = 0;
+        while (i < size)
+        {
+            tmp = tmp->next;
+            ++size;
+        }
+        delete end;
+        tmp->next = end->next;
+    }
+}; pop push empty 
