@@ -103,17 +103,9 @@ kernel:
     call kmain
     hlt
 
-array db: 0, 1, 2, 3
-put_in_stack:
-	call res_stack
-	mov esp, stack_top
-	mov [esp], 1
-	add esp, 4
-
 section .bss
 res_stack:
     align 4
     stack_bottom: equ $
     resb STACK_SIZE
     stack_top:
-    
