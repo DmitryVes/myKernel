@@ -57,6 +57,15 @@ dw 0xaa55
 
 copy_target:
 
+start_addr dw 0x7c00
+
+jmp_to_load_code db 0x0 ;3
+id_firm db 0x03 ;8
+ssize dw 0x0B ;2
+
+sctrs_in_cluster dw 0x0D ;1
+resrv_sectrs
+
 bits 32
 
 STACK_SIZE equ 16384
