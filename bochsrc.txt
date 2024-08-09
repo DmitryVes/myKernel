@@ -1,0 +1,14 @@
+megs: 8
+#romimage: file=/usr/local/bochs/1.4.1/BIOS-bochs-latest, address=0xf0000
+#vgaromimage: /usr/local/bochs/1.4.1/VGABIOS-elpin-2.40
+floppya: 1_44=floppy.img, status=inserted
+boot: a
+log: bochsout.txt
+sound: driver=default, waveout=/dev/dsp
+speaker: enabled=1, mode=sound
+mouse: enabled=1
+mouse: type=imps2, enabled=1
+mouse: enabled=0, toggle=ctrl+alt
+keyboard: type=mf, serial_delay=200, paste_delay=100000
+keyboard: keymap=C:/Bochs-2.7/keymaps/x11-pc-de.map
+keyboard: user_shortcut=ctrl-alt-del
